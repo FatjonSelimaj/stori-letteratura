@@ -3,6 +3,12 @@ import { Request, Response } from 'express';
 
 const prisma = new PrismaClient();
 
+// Definire l'interfaccia per il corpo della richiesta per creare o aggiornare un autore
+interface AuthorBody {
+    name: string;
+    biography?: string;
+}
+
 // Creare un autore senza immagini
 export const createAuthor = async (req: Request, res: Response) => {
     const { name, biography } = req.body;
@@ -33,21 +39,18 @@ export const createAuthor = async (req: Request, res: Response) => {
 // Recuperare tutti gli autori
 export const getAuthors = async (req: Request, res: Response) => {
     try {
-        const authors = await prisma.author.findMany({
-            include: {
-                works: true,  // Include i lavori dell'autore
-            },
-            orderBy: {
-                createdAt: 'desc',
-            },
-        });
-
-        res.status(200).json(authors);
+      const authors = await prisma.author.findMany({
+        include: {
+          works: true, // Include i lavori dell'autore
+        },
+      });
+  
+      return res.status(200).json(authors);
     } catch (error) {
-        console.error('Error fetching authors:', error);
-        res.status(500).json({ error: 'Failed to fetch authors' });
+      console.error('Error fetching authors:', error);
+      return res.status(500).json({ error: 'Failed to fetch authors' });
     }
-};
+  };
 
 // Recuperare un singolo autore per ID
 export const getAuthorById = async (req: Request, res: Response) => {
@@ -72,7 +75,7 @@ export const getAuthorById = async (req: Request, res: Response) => {
 };
 
 // Aggiornare un autore senza immagini
-export const updateAuthor = async (req: Request, res: Response): Promise<Response> => {
+export const updateAuthor = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { name, biography } = req.body;
 
@@ -85,10 +88,10 @@ export const updateAuthor = async (req: Request, res: Response): Promise<Respons
             },
         });
 
-        return res.status(200).json(author);
+        res.status(200).json(author);
     } catch (error) {
         console.error('Error updating author:', error);
-        return res.status(500).json({ error: 'Failed to update author' });
+        res.status(500).json({ error: 'Failed to update author' });
     }
 };
 
@@ -100,7 +103,7 @@ export const deleteAuthor = async (req: Request, res: Response) => {
             where: { id },
         });
 
-        res.status(204).send();
+        res.status(204).send(); // Nessun contenuto
     } catch (error) {
         console.error('Error deleting author:', error);
         res.status(500).json({ error: 'Failed to delete author' });

@@ -3,48 +3,49 @@ import { Request, Response } from 'express';
 
 const prisma = new PrismaClient();
 
+// Definisci l'interfaccia per il corpo della richiesta
+interface HistorySectionBody {
+    title: string;
+    description: string;
+    historicalPeriod: string;
+}
+
 // Crea una nuova sezione storica con titolo, descrizione e periodo storico
 export const createHistorySection = async (req: Request, res: Response) => {
     try {
-        const { title, description, historicalPeriod } = req.body;
-
-        // Verifica che tutti i campi richiesti siano presenti
-        if (!title || !description || !historicalPeriod) {
-            return res.status(400).json({ error: 'All fields are required: title, description, and historicalPeriod' });
-        }
-
-        // Crea la nuova sezione storica
-        const historySection = await prisma.historySection.create({
-            data: {
-                title,
-                description,
-                historicalPeriod,
-                createdAt: new Date(),  // Facoltativo: Prisma imposta automaticamente la data di creazione
-            },
-        });
-
-        res.status(201).json(historySection);
+      const { title, description, historicalPeriod } = req.body;
+  
+      // Verifica che tutti i campi richiesti siano presenti
+      if (!title || !description || !historicalPeriod) {
+        return res.status(400).json({ error: 'All fields are required: title, description, and historicalPeriod' });
+      }
+  
+      // Crea la nuova sezione storica
+      const historySection = await prisma.historySection.create({
+        data: {
+          title,
+          description,
+          historicalPeriod,
+        },
+      });
+  
+      return res.status(201).json(historySection);
     } catch (error) {
-        console.error('Error creating history section:', error);
-        res.status(500).json({ error: 'Failed to create history section' });
+      console.error('Error creating history section:', error);
+      return res.status(500).json({ error: 'Failed to create history section' });
     }
-};
+  };
 
 // Ottieni tutte le sezioni storiche
 export const getHistorySections = async (_req: Request, res: Response) => {
     try {
-        const historySections = await prisma.historySection.findMany({
-            orderBy: {
-                createdAt: 'desc',  // Ordina per data di creazione
-            },
-        });
-
-        res.status(200).json(historySections);
+      const historySections = await prisma.historySection.findMany();
+      return res.status(200).json(historySections);
     } catch (error) {
-        console.error('Error fetching history sections:', error);
-        res.status(500).json({ error: 'Failed to fetch history sections' });
+      console.error('Error fetching history sections:', error);
+      return res.status(500).json({ error: 'Failed to fetch history sections' });
     }
-};
+  };
 
 // Ottieni una sezione storica per ID
 export const getHistorySectionById = async (req: Request, res: Response) => {

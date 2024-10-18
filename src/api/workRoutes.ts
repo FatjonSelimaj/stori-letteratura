@@ -1,19 +1,19 @@
-import { Router } from 'express';
+import express from 'express';
 import {
-    createWork,
-    getWorks,
-    getWorkById,
-    updateWork,
-    deleteWork,
+  createWork,
+  deleteWork,
+  getWorkById,
+  getWorks,
+  updateWork
 } from '../controllers/workController';
 
-const router = Router();
+const router = express.Router();
 
 // Rotta per creare una nuova opera senza immagini
 router.post('/works', createWork);
 
 // Rotta per ottenere tutte le opere
-router.get('/works', getWorks);
+router.get('/', getWorks);
 
 // Rotta per ottenere un'opera specifica per ID
 router.get('/works/:id', getWorkById);

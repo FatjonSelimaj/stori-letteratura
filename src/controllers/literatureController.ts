@@ -3,6 +3,12 @@ import { Request, Response } from 'express';
 
 const prisma = new PrismaClient();
 
+// Definisci l'interfaccia per il corpo della richiesta
+interface LiteratureBody {
+    authorId: string;
+    workId: string;
+}
+
 // Crea una nuova relazione letteraria senza immagini
 export const createLiterature = async (req: Request, res: Response) => {
     try {
@@ -32,30 +38,27 @@ export const createLiterature = async (req: Request, res: Response) => {
 };
 
 // Recupera tutte le relazioni letterarie
-export const getLiteratures = async (_req: Request, res: Response) => {
+export const getLiteratures = async (req: Request, res: Response) => {
     try {
-        const literatures = await prisma.literature.findMany({
-            where: {
-                AND: [
-                    { authorId: { not: null } },  // Assicurati che authorId non sia null
-                    { workId: { not: null } },    // Assicurati che workId non sia null
-                ],
-            },
-            include: {
-                author: true,  // Include i dettagli dell'autore
-                work: true,    // Include i dettagli dell'opera
-            },
-            orderBy: {
-                createdAt: 'desc',
-            },
-        });
-
-        res.status(200).json(literatures);
+      const literatures = await prisma.literature.findMany({
+        where: {
+          AND: [
+            { authorId: { not: null } },  // Assicurati che authorId non sia null
+            { workId: { not: null } },    // Assicurati che workId non sia null
+          ],
+        },
+        include: {
+          author: true,  // Include i dettagli dell'autore
+          work: true,    // Include i dettagli dell'opera
+        },
+      });
+  
+      return res.status(200).json(literatures);
     } catch (error) {
-        console.error('Error fetching literatures:', error);
-        res.status(500).json({ error: 'Failed to fetch literatures' });
+      console.error('Error fetching literatures:', error);
+      return res.status(500).json({ error: 'Failed to fetch literatures' });
     }
-};
+  };
 
 // Recupera una singola relazione letteraria per ID
 export const getLiteratureById = async (req: Request, res: Response) => {
