@@ -3,11 +3,11 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 
 // Importa le rotte
-import articleRoutes from './api/articleRoutes';
-import authorRoutes from './api/authorRoutes';
-import workRoutes from './api/workRoutes';  // Importa la rotta per "works"
-import literatureRoutes from './api/literatureRoutes';
-import historySectionRoutes from './api/historySectionRoutes';
+import articleRoutes from '../routes/articleRoutes';
+import authorRoutes from '../routes/authorRoutes';
+import workRoutes from '../routes/workRoutes';  // Importa la rotta per "works"
+import literatureRoutes from '../routes/literatureRoutes';
+import historySectionRoutes from '../routes/historySectionRoutes';
 
 dotenv.config();
 
@@ -36,9 +36,8 @@ app.use((req, res, next) => {
     res.status(404).send('Errore 404: Risorsa non trovata');
 });
 
-app.use((req, res) => {
-    res.status(404).send('Errore 404: Risorsa non trovata');
+// Avvia il server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
-
-// Esporta l'handler per Vercel
-export default app;
