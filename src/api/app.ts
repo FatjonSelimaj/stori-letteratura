@@ -20,16 +20,16 @@ app.use(express.json());
 app.use(cors({ origin: true }));
 
 // Registra le rotte con prefisso /api
-app.use('api/articles', articleRoutes);
-app.use('api', articleRoutes);
-app.use('api/authors', authorRoutes);
-app.use('api', authorRoutes);
-app.use('api/works', workRoutes);  // Registra la rotta /api/works
-app.use('api', workRoutes);  // Registra la rotta /api/works
-app.use('api/literatures', literatureRoutes);
-app.use('api', literatureRoutes);
-app.use('api/history-sections', historySectionRoutes);
-app.use('api', historySectionRoutes);
+app.use('//api/articles', articleRoutes);
+app.use('//api', articleRoutes);
+app.use('//api/authors', authorRoutes);
+app.use('//api', authorRoutes);
+app.use('//api/works', workRoutes);  // Registra la rotta /api/works
+app.use('//api', workRoutes);  // Registra la rotta /api/works
+app.use('//api/literatures', literatureRoutes);
+app.use('//api', literatureRoutes);
+app.use('//api/history-sections', historySectionRoutes);
+app.use('//api', historySectionRoutes);
 
 // Gestisci le rotte non trovate
 app.use((req, res, next) => {
