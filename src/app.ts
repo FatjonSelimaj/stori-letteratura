@@ -23,11 +23,11 @@ app.use(cors({ origin: true }));
 app.use('/api/articles', articleRoutes);
 app.use('/api', articleRoutes);
 app.use('/api/authors', authorRoutes);
-app.use('/api', authorRoutes);
-app.use('/api/works', workRoutes);  // Registra la rotta /api/works
-app.use('/api', workRoutes);  // Registra la rotta /api/works
+app.use('/api/', authorRoutes);
+app.use('/api/works', workRoutes); 
+app.use('/api', workRoutes); 
 app.use('/api/literatures', literatureRoutes);
-app.use('/api', literatureRoutes);
+app.use('/api/', literatureRoutes);
 app.use('/api/history-sections', historySectionRoutes);
 app.use('/api', historySectionRoutes);
 
