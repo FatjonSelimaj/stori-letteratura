@@ -13,11 +13,12 @@ dotenv.config();
 
 const app = express();
 
-// Configura CORS per permettere richieste dal frontend
-app.use(cors({
-  origin: ['https://storia-letteratura-follower.vercel.app'], // Permetti il dominio del frontend
-  credentials: true, // Permetti l'invio di cookie o credenziali
-}));
+app.use((_req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://storia-letteratura-follower.vercel.app');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  next();
+});
+
 
 // Middleware per il parsing del JSON
 app.use(express.json());
@@ -30,7 +31,7 @@ app.use('/api/literatures', literatureRoutes);
 app.use('/api/history-sections', historySectionRoutes);
 
 // Gestisci le rotte non trovate (404)
-app.use((req, res, next) => {
+app.use((_req, res, _next) => {
     res.status(404).send('Errore 404: Risorsa non trovata');
 });
 
