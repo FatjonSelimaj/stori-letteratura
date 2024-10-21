@@ -18,8 +18,6 @@ app.use(cors({
   credentials: true,  // Permetti invio di cookie o credenziali
 }));
 
-
-
 // Middleware per il parsing del JSON
 app.use(express.json());
 
@@ -30,15 +28,9 @@ app.use('/api/works', workRoutes);
 app.use('/api/literatures', literatureRoutes);
 app.use('/api/history-sections', historySectionRoutes);
 
-// Gestisci le rotte non trovate (404)
-app.use((_req, res, _next) => {
+app.use((req, res, next) => {
     res.status(404).send('Errore 404: Risorsa non trovata');
-});
-
-// Avvia il server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
-
-export default app;  // Esportazione necessaria per Vercel
+  });
+  
+  // Esporta l'app per Vercel
+  export default app;
