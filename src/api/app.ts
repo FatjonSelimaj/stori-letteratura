@@ -13,11 +13,10 @@ dotenv.config();
 
 const app = express();
 
-app.use((_req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'https://storia-letteratura-follower.vercel.app');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  next();
-});
+app.use(cors({
+  origin: 'https://storia-letteratura-follower.vercel.app', // Dominio del frontend
+  credentials: true, // Abilita invio di cookie/cred
+}));
 
 
 // Middleware per il parsing del JSON
