@@ -17,7 +17,7 @@ const app = express();
 app.use(express.json());
 
 // Configurazione CORS: accetta richieste solo da origini specifiche in produzione
-const allowedOrigins = ['https://stori-letteratura.vercel.app', 'https://storia-letteratura-admin-frontend.vercel.app', 'https://storia-letteratura-follower.vercel.app'];
+const allowedOrigins = ['https://storia-letteratura-follower.vercel.app', 'https://stori-letteratura.vercel.app'];
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -26,7 +26,7 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true, // Se necessario inviare cookie o credenziali
+  credentials: true,
 }));
 
 // Registra le rotte con prefisso /api
@@ -41,10 +41,5 @@ app.use((req, res, next) => {
     res.status(404).send('Errore 404: Risorsa non trovata');
 });
 
-// Avvia il server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
-
+// Esporta l'app invece di usare app.listen
 export default app;
