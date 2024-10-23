@@ -17,7 +17,7 @@ const app = express();
 app.use(express.json());
 
 // Configurazione CORS: accetta richieste solo da origini specifiche in produzione
-const allowedOrigins = ['https://stori-letteratura.vercel.app/', 'https://storia-letteratura-admin-frontend.vercel.app/', 'https://storia-letteratura-follower.vercel.app/'];
+const allowedOrigins = ['https://stori-letteratura.vercel.app', 'https://storia-letteratura-admin-frontend.vercel.app', 'https://storia-letteratura-follower.vercel.app'];
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -31,15 +31,10 @@ app.use(cors({
 
 // Registra le rotte con prefisso /api
 app.use('/api/articles', articleRoutes);
-app.use('/api/', articleRoutes);
 app.use('/api/authors', authorRoutes);
-app.use('/api/', authorRoutes);
 app.use('/api/works', workRoutes);
-app.use('/api/', workRoutes);
 app.use('/api/literatures', literatureRoutes);
-app.use('/api/', literatureRoutes);
 app.use('/api/history-sections', historySectionRoutes);
-app.use('/api/', historySectionRoutes);
 
 // Gestisci le rotte non trovate
 app.use((req, res, next) => {
